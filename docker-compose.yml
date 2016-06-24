@@ -1,0 +1,9 @@
+version: '2'
+services:
+    main:
+        build: ./centos
+        ports:
+            - "25565:25565"
+        tty: true
+        working_dir: "/minecraft"
+        command: java -Xmx1024M -Xms1024M -jar minecraft_server.jar nogui
