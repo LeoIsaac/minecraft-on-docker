@@ -9,16 +9,31 @@
     </script>
     <script>
         var socketio = io.connect(document.domain + ':8080');
+	socketio.emit('connected');
         socketio.on('log', function(data){
             var logArea = document.getElementById('logs');
             var domLog = document.createElement('p');
             domLog.innerHTML = data.value;
             logArea.appendChild(domLog);
         });
+        socketio.on('users', function(data){
+            var userArea = document.getElementById('users');
+	    while(userArea.firstChild) userArea.removeChild(userArea.firstChild);
+	    var domUser = document.createElement('p');
+	    data.value.forEach(function(val, i){
+		    domUser.innerHTML = "<img src='https://mcapi.ca/avatar/3d/" + val + "/50'>" + val;
+		userArea.appendChild(domUser);
+            });
+	    var numArea = document.getElementById('num');
+	    numArea.textContent = data.value.length;
+        });
     </script>
 </head>
 
 <body>
-    <div id="logs"></div>
+    <p>ログイン中のユーザー<span id="num"></span></p>
+    <div id="users" style="height:82px; border:solid 1px; overflow:scroll;"></div>
+    <p>ログ</p>
+    <div id="logs" style="height:100vh; border:solid 1px; overflow:scroll;"></div>
 </body>
 </html>

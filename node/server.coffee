@@ -6,11 +6,16 @@ fs = require 'fs'
 jsdiff = require 'diff'
 
 old = ""
+users = []
+
+fs.readFile '/minecraft/logs/latest.log', 'utf8', (err, text) ->
+    if !err?
+        old = text
+
 
 io.sockets.on 'connection', (socket) ->
-    fs.readFile '/minecraft/logs/latest.log', 'utf8', (err, text) ->
-        if !err?
-            old = text
+    socket.on 'connected', () ->
+        io.sockets.emit 'users', {value:users}
 
     fs.watch '/minecraft/logs/latest.log', (event, filename) ->
         fs.readFile '/minecraft/logs/latest.log', 'utf8', (err, text) ->
@@ -26,10 +31,10 @@ io.sockets.on 'connection', (socket) ->
                         logs = diff[1]["value"].split "\n"
                         for log in logs
                             if log != ""
-                                pushLog(log)
+                                pushLog(log, users)
 
 
-pushLog = (log) ->
+pushLog = (log, users) ->
     loger = log.match /^\[(\d{2}):(\d{2}):(\d{2})\] \[(.*)\/(.*)\]: (.*)/
     if !loger?
         return
@@ -46,6 +51,8 @@ pushLog = (log) ->
     if join?
         user = join[1]
         msg = user + avatar(user) + "がログインしました"
+        users.push(user)
+        io.sockets.emit 'users', {value:users}
     #if achievement
     acvm = msg.match /^(.*) has just earned the achievement \[(.*)\]/
     if acvm?
@@ -57,13 +64,14 @@ pushLog = (log) ->
     if left?
         user = left[1]
         msg = user + avatar(user) + "がログアウトしました"
+        users.splice users.indexOf(user), 1
+        io.sockets.emit 'users', {value:users}
     #else
     io.sockets.emit "log", {value:msg}
-    console.log loger
 
 
 avatar = (user) ->
-    return "<img src='https://minotar.net/avatar/" + user + "/30'>"
+    return "<img src='https://mcapi.ca/avatar/3d/" + user + "/50'>"
 
 
 html = (str) ->
