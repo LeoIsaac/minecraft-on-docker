@@ -1,5 +1,6 @@
 FROM centos:latest
 
+RUN cp -p /usr/share/zoneinfo/Japan /etc/localtime
 RUN yum update -y
 RUN yum install -y java
 RUN mkdir minecraft && curl -o minecraft/minecraft_server.jar https://s3.amazonaws.com/Minecraft.Download/versions/1.10.2/minecraft_server.1.10.2.jar
