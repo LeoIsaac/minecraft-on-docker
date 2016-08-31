@@ -1,0 +1,24 @@
+<!DOCTYPE>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>Minecraft</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+    <script>
+        document.write('<script src="http://' + document.domain + ':8080/socket.io/socket.io.js"><\/script>');
+    </script>
+    <script>
+        var socketio = io.connect(document.domain + ':8080');
+        socketio.on('log', function(data){
+            var logArea = document.getElementById('logs');
+            var domLog = document.createElement('p');
+            domLog.innerHTML = data.value;
+            logArea.appendChild(domLog);
+        });
+    </script>
+</head>
+
+<body>
+    <div id="logs"></div>
+</body>
+</html>
