@@ -25,4 +25,4 @@ services:
         volumes_from:
             - main
         tty: true
-        command: coffee /mnt/server.coffee
+        #command: coffee /mnt/server.coffee

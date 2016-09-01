@@ -52,6 +52,7 @@ pushLog = (log, users) ->
         user = join[1]
         msg = user + avatar(user) + "がログインしました"
         users.push(user)
+        console.log users
         io.sockets.emit 'users', {value:users}
     #if achievement
     acvm = msg.match /^(.*) has just earned the achievement \[(.*)\]/
@@ -65,8 +66,11 @@ pushLog = (log, users) ->
         user = left[1]
         msg = user + avatar(user) + "がログアウトしました"
         users.splice users.indexOf(user), 1
+        console.log users
         io.sockets.emit 'users', {value:users}
     #else
+    if status == "WARN"
+        msg = "【警告】" + msg
     io.sockets.emit "log", {value:msg}
 
 

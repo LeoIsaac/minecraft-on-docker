@@ -5,37 +5,41 @@
     <title>Minecraft</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
     <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/simple-sidebar.css">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
     <script>
         document.write('<script src="http://' + document.domain + ':8080/socket.io/socket.io.js"><\/script>');
-    </script>
-    <script>
-        var socketio = io.connect(document.domain + ':8080');
-	socketio.emit('connected');
-        socketio.on('log', function(data){
-            var logArea = document.getElementById('logs');
-            var domLog = document.createElement('p');
-            domLog.innerHTML = data.value;
-            logArea.appendChild(domLog);
-            logArea.scrollTop = logArea.scrollHeight;
-        });
-        socketio.on('users', function(data){
-            var userArea = document.getElementById('users');
-	    while(userArea.firstChild) userArea.removeChild(userArea.firstChild);
-	    var domUser = document.createElement('p');
-	    data.value.forEach(function(val, i){
-		    domUser.innerHTML = "<img src='https://mcapi.ca/avatar/3d/" + val + "/50'>" + val;
-		userArea.appendChild(domUser);
+        $(document).ready(function() {
+            $("#menu-toggle").click(function(e) {
+                console.log("test");
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
             });
-	    var numArea = document.getElementById('num');
-	    numArea.textContent = data.value.length;
         });
     </script>
+    <script src="js/main.js"></script>
 </head>
 
 <body>
-    <p>ログイン中のユーザー<span id="num"></span></p>
-    <div id="users" style="height:82px; border:solid 1px; overflow:scroll;"></div>
-    <p>ログ</p>
-    <div id="logs" style="height:100vh; border:solid 1px; overflow:scroll;"></div>
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="./">Minecraft LogViewer</a>
+                </li>
+                <li>ログイン中のユーザー <span id="num"></span></li>
+                <ul id="users"></ul>
+            </ul>
+        </div><!-- /.sidebar-wrapper -->
+        <div class="container-fluid">
+            <button type="button" class="btn btn-default" id="menu-toggle">
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </button>
+            <div id="logs"></div>
+        </div><!-- /#container-fluid -->
+    </div><!-- /#wrapper -->
 </body>
 </html>
