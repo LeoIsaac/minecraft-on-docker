@@ -4,10 +4,15 @@ socketio.on('log', function(data){
     var logArea = document.getElementById('logs');
     var domLog = document.createElement('p');
     domLog.innerHTML = data.value;
+    flag = checkHeight();
     logArea.appendChild(domLog);
-    $('body').delay(100).animate({
-        scrollTop: $(document).height()
-    },1500);
+    if(flag) {
+        $('body').delay(100).animate({
+            scrollTop: $(document).height()
+        },1500);
+    } else {
+        toastr.info(data.value);
+    }
 });
 socketio.on('users', function(data){
     var userArea = document.getElementById('users');
@@ -22,3 +27,25 @@ socketio.on('users', function(data){
     var numArea = document.getElementById('num');
     numArea.textContent = data.value.length;
 });
+
+$(window).on('load scroll resize', function() {
+    checkHeight();
+});
+
+
+function checkHeight() {
+    var windowHeight = window.innerHeight;
+    var logHeight = $(window).height();
+    var scrollTop = $(window).scrollTop();
+    if(windowHeight + scrollTop >= logHeight - 10) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+toastr.options.onclick = function() {
+    $('body').delay(100).animate({
+        scrollTop: $(document).height()
+    },1500);
+}

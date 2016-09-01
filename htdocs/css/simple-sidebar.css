@@ -128,3 +128,11 @@
         margin-right: 0;
     }
 }
+
+#menu-toggle {
+    position: fixed;
+}
+
+#logs {
+    padding-top: 40px;
+}
