@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Minecraft</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+    <link rel="icon" href="favicon.ico">
     <script>
         document.write('<script src="http://' + document.domain + ':8080/socket.io/socket.io.js"><\/script>');
     </script>
@@ -15,6 +16,7 @@
             var domLog = document.createElement('p');
             domLog.innerHTML = data.value;
             logArea.appendChild(domLog);
+            logArea.scrollTop = logArea.scrollHeight;
         });
         socketio.on('users', function(data){
             var userArea = document.getElementById('users');
