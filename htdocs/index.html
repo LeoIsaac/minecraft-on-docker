@@ -5,42 +5,61 @@
     <title>Minecraft</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
     <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/simple-sidebar.css">
-    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.js'></script>
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css'>
+
+    <script src="https://polygit.org/components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="https://polygit.org/components/app-layout/app-drawer-layout/app-drawer-layout.html">
+    <link rel="import" href="https://polygit.org/components/app-layout/app-drawer/app-drawer.html">
+    <link rel="import" href="https://polygit.org/components/app-layout/app-header-layout/app-header-layout.html">
+    <link rel="import" href="https://polygit.org/components/app-layout/app-header/app-header.html">
+    <link rel="import" href="https://polygit.org/components/app-layout/app-scroll-effects/app-scroll-effects.html">
+    <link rel="import" href="https://polygit.org/components/app-layout/app-toolbar/app-toolbar.html">
+    <link rel="import" href="https://polygit.org/components/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="https://polygit.org/components/iron-icons/iron-icons.html">
+
     <script>
         document.write('<script src="http://' + document.domain + ':8080/socket.io/socket.io.js"><\/script>');
+        /*
         $(document).ready(function() {
             $("#menu-toggle").click(function(e) {
                 e.preventDefault();
                 $("#wrapper").toggleClass("toggled");
             });
         });
+        */
     </script>
     <script src="js/main.js"></script>
+
+    <style>
+    body {
+        margin: 0;
+        background-color: #f5f5f5;
+    }
+    app-toolbar {
+        background-color: #1E88E5;
+        font-family: 'Roboto', Helvetica, sans-serif;
+        color: white;
+        --app-toolbar-font-size: 24px;
+    }
+    </style>
 </head>
 
 <body>
-    <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand">
-                    <a href="./">Minecraft LogViewer</a>
-                </li>
-                <li>ログイン中のユーザー <span id="num"></span></li>
-                <ul id="users"></ul>
-            </ul>
-        </div><!-- /.sidebar-wrapper -->
-        <div class="container-fluid" id="viewer">
-            <button type="button" class="btn btn-default" id="menu-toggle">
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </button>
+    <app-drawer-layout fullbleed>
+        <app-drawer>
+            ログイン中のユーザー <span id="num"></span>
+            <ul id="users"></ul>
+        </app-drawer>
+        <app-header-layout>
+            <app-header condenses fixed effects="waterfall">
+                <app-toolbar>
+                    <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+                    <div main-title>Minecraft LogViewer</div>
+                </app-toolbar>
+            </app-header>
+
             <div id="logs"></div>
-        </div><!-- /#container-fluid -->
-    </div><!-- /#wrapper -->
+
+        </app-header-layout>
+    </app-drawer-layout>
 </body>
 </html>

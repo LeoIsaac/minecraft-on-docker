@@ -4,8 +4,9 @@ socketio.on('log', function(data){
     var logArea = document.getElementById('logs');
     var domLog = document.createElement('p');
     domLog.innerHTML = data.value;
-    flag = checkHeight();
+    //flag = checkHeight();
     logArea.appendChild(domLog);
+    /*
     if(flag) {
         $('body').delay(100).animate({
             scrollTop: $(document).height()
@@ -13,24 +14,28 @@ socketio.on('log', function(data){
     } else {
         toastr.info(data.value);
     }
+    */
 });
 socketio.on('users', function(data){
     var userArea = document.getElementById('users');
     while(userArea.firstChild) userArea.removeChild(userArea.firstChild);
     var domUser = document.createElement('li');
     data.value.forEach(function(val, i){
-        //domUser.innerHTM = "<img src='https://mcapi.ca/avatar/3d/" + val + "/30'> " + val;
-        //userArea.appendChild(domUser);
-        $li = "<li><img src='https://mcapi.ca/avatar/3d/" + val + "/30'> " + val + "</li>";
-        $('#users').append($li);
+        console.log(val);
+        domUser.innerHTML = "<img src='https://mcapi.ca/avatar/3d/" + val + "/30'> " + val;
+        userArea.appendChild(domUser);
+        //$li = "<li><img src='https://mcapi.ca/avatar/3d/" + val + "/30'> " + val + "</li>";
+        //$('#users').append($li);
     });
     var numArea = document.getElementById('num');
     numArea.textContent = data.value.length;
 });
 
+/*
 $(window).on('load scroll resize', function() {
     checkHeight();
 });
+
 
 
 function checkHeight() {
@@ -49,3 +54,4 @@ toastr.options.onclick = function() {
         scrollTop: $(document).height()
     },1500);
 }
+*/
